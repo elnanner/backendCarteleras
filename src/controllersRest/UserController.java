@@ -103,6 +103,7 @@ public class UserController {
 	
 	@RequestMapping(value="/tryLogin/", method = RequestMethod.POST)
 	public ResponseEntity<User> getUserById(@RequestBody Credential credential) {
+		//{"user": "prof1", "pass":"prof1"}
 		System.out.println("inicio trylogin ponele");
 		Boolean existeUser =userDAO.credentialsLogin(credential.getUser(), credential.getPass());
 		User user;

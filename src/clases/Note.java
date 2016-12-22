@@ -138,7 +138,7 @@ public class Note {
 		this.publishDate = publishDate;
 	}
 
-
+/*
 	public DateFormat getFormat() {
 		return format;
 	}
@@ -147,6 +147,6 @@ public class Note {
 	public void setFormat(DateFormat format) {
 		this.format = format;
 	}
-	
+	*/
 	
 }

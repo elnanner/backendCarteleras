@@ -65,8 +65,8 @@ public class InitCarteleras {
 		globalConfigDAO.persist(conf1);
 		globalConfigDAO.persist(conf2);
 		
-		SuscriptionManager manager=SuscriptionManager.getInstance();
-		suscriptionManagerDAO.persist(manager);
+		//SuscriptionManager manager=SuscriptionManager.getInstance();
+		//suscriptionManagerDAO.persist(manager);
 		
 		
 		

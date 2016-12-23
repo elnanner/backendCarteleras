@@ -39,11 +39,11 @@ public class User {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "configId")
 	protected Config configuration;
-	protected Integer state; //0 es activo, 1 baja, el resto veremos   
+	//protected Integer state; //0 es activo, 1 baja, el resto veremos   
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+/*	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "suscriptionManagerId")
-	protected SuscriptionManager suscriptionManager;
+	protected SuscriptionManager suscriptionManager;*/
 	protected String mail;
 	
 	public Long getId() {
@@ -64,21 +64,23 @@ public class User {
 		this.idSIU = idSIU;
 	}
 
+	/*
 	public Integer getState() {
 		return state;
 	}
 
 	public void setState(Integer state) {
 		this.state = state;
-	}
+	}*/
 
+	/*
 	public SuscriptionManager getSuscriptionManager() {
 		return suscriptionManager;
 	}
 
 	public void setSuscriptionManager(SuscriptionManager suscriptionManager) {
 		this.suscriptionManager = suscriptionManager;
-	}
+	}*/
 
 	public Boolean getDown() {
 		return down;
@@ -121,8 +123,8 @@ public class User {
 		password=passParam;
 		favouritesBoards=new ArrayList<Board>();
 		configuration=config;
-		state=0;  
-		suscriptionManager=SuscriptionManager.getInstance();
+	//	state=0;  
+		//suscriptionManager=SuscriptionManager.getInstance();
 		mail=mailParam;
 		down=false;
 		idSIU=null;
@@ -133,21 +135,22 @@ public class User {
 		password=null;
 		favouritesBoards=new ArrayList<Board>();
 		configuration=config;
-		state=0;  
-		suscriptionManager=SuscriptionManager.getInstance();
+	//	state=0;  
+		//suscriptionManager=SuscriptionManager.getInstance();
 		mail=null;
 		down=false;
 		idSIU=idSIUParam;
 	}
 
 	
+	
 	public void addBoardInterest(Board board){
-		suscriptionManager.addMailNotifier(this, board);
+		//suscriptionManager.addMailNotifier(this, board);
 		favouritesBoards.add(board);
 	}
 
 	public void removeBoardInterest(Board board){
-		suscriptionManager.removeMailNotifier(this, board);
+		//suscriptionManager.removeMailNotifier(this, board);
 		favouritesBoards.remove(board);
 		
 	}

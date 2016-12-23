@@ -99,6 +99,20 @@
 <version>2.7</version>
 </dependency>
     
+    <!-- Dependencia para el uso de JSON Web Token -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.6.0</version>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+    
   </dependencies>
   <build>
   <pluginManagement>

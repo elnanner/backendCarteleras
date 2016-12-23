@@ -33,11 +33,17 @@ import clases.User;
 import clasesDAO.GlobalConfigDAO;
 import clasesDAO.UserDAO;
 import clasesPrivadas.Credential;
+import clasesPrivadas.Token;
+import clasesPrivadas.TokenManagerSecurity;
+import clasesPrivadas.rtaLogin;
 
 @RestController
 public class UserController {
 	@Autowired
 	private UserDAO userDAO;
+	
+	@Autowired
+	private TokenManagerSecurity tokenManagerSecurity;
 	
 	@Autowired
 	private GlobalConfigDAO globalConfigDAO;
@@ -205,21 +211,31 @@ public ResponseEntity<User> updateBoard(HttpEntity<String> httpEntity ) {
 	}
 	
 	@RequestMapping(value="/tryLogin/", method = RequestMethod.POST)
-	public ResponseEntity<User> getUserById(@RequestBody Credential credential) {
-		//{"user": "prof1", "pass":"prof1"}
+	public ResponseEntity<rtaLogin> getUserById(@RequestBody Credential credential) {
+		//{"user": "prof1", "pass":"prof1"} 
 		Boolean existeUser =userDAO.credentialsLogin(credential.getUser(), credential.getPass());
 		User user;
 		if(existeUser==false){
 		   // user=searchSIU(credential);
 			Long id=searchSIU(credential);
 		    if(id==null){
-		    	return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		    	return new ResponseEntity<rtaLogin>(HttpStatus.NOT_FOUND);
 		    }
 		    user = userDAO.getUserWithIDSIU(id);
 		}else{
 			user = userDAO.login(credential.getUser(), credential.getPass());
 		}
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		//return new ResponseEntity<User>(user, HttpStatus.OK);
+		Token token;
+		try {
+			token = new Token(tokenManagerSecurity.createJWT(user));
+			rtaLogin r=new rtaLogin(token, user);
+			return ResponseEntity.ok(r);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<rtaLogin>(HttpStatus.NOT_FOUND);
+		}
+		
 	}
 	
 	

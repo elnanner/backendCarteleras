@@ -81,7 +81,7 @@ public class InitCarteleras {
 	    userDAO.persist(new Publisher("pub", "pub", conf0, "publicador@mail.com"));
 	    userDAO.persist(new Professor("new", 6L, conf0));
 	    
-	    Comment comment=new Comment("Hello word",admin);
+	    Comment comment=new Comment("Mensaje inicial ",admin);
 	    commentDAO.persist(comment);
 	    
 	    Note note=new Note(false,new Date(), admin, "Nota de bienvenida con sorpresa ");
@@ -92,7 +92,7 @@ public class InitCarteleras {
 	    Board boardNoticias=new Board("Institucional", "Pizarra de las noticias institucionales de la facultad","institucional");
 	    boardDAO.persist(boardNoticias);
 	    
-	    Board boardSubjectsFirstYear=new Board("Materias primer año", "Pizarra sobre  las noticias de las materias de primer aï¿½o","primero");
+	    Board boardSubjectsFirstYear=new Board("Materias primer año", "Pizarra sobre  las noticias de las materias de primer año","primero");
 	    Board adp=new Board("ADP", "Pizarra sobre  las noticias de adp","adp");
 	    boardDAO.persist(adp);
 	    boardSubjectsFirstYear.addBoard(adp);
@@ -103,19 +103,19 @@ public class InitCarteleras {
 	    userDAO.persist(prof);
 	   
 	    
-	    Board boardSubjectsSecondYear=new Board("Materias segundo añio", "Pizarra sobre  las noticias de las materias de segundo aï¿½o","segundo");
+	    Board boardSubjectsSecondYear=new Board("Materias segundo año", "Pizarra sobre  las noticias de las materias de segundo año","segundo");
 	    boardDAO.persist(boardSubjectsSecondYear);
 	    
-	    Board boardSubjectsThirdYear=new Board("Materias tercer añio", "Pizarra sobre  las noticias de las materias de tercer aï¿½o","tercero");
+	    Board boardSubjectsThirdYear=new Board("Materias tercer año", "Pizarra sobre  las noticias de las materias de tercer año","tercero");
 	    boardDAO.persist(boardSubjectsThirdYear);
 	    
-	    Board boardSubjectsFourthYear=new Board("Materias cuarto añoo", "Pizarra sobre  las noticias de las materias de cuarto aï¿½o","cuarto");
+	    Board boardSubjectsFourthYear=new Board("Materias cuarto año", "Pizarra sobre  las noticias de las materias de cuarto año","cuarto");
 	    boardDAO.persist(boardSubjectsFourthYear);
 	    
-	    Board boardSubjectsFifthYear=new Board("Materias quinto año", "Pizarra sobre  las noticias de las materias de quinto aï¿½o","quinto");
+	    Board boardSubjectsFifthYear=new Board("Materias quinto año", "Pizarra sobre  las noticias de las materias de quinto año","quinto");
 	    boardDAO.persist(boardSubjectsFifthYear);
 	    
-	    Board boardLaboral=new Board("Pizarra con informaciï¿½n laboral", "Ofertas de trabajo para los alumnos","ofertas");
+	    Board boardLaboral=new Board("Pizarra con información laboral", "Ofertas de trabajo para los alumnos","ofertas");
 	    boardDAO.persist(boardLaboral);
 	    
 	    Board boardEvents=new Board("Pizarra de eventos", "Pizarra sobre  las noticias de eventos que se den en la facultad o relacionados","eventos");

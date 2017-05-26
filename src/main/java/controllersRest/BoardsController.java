@@ -73,7 +73,7 @@ public ResponseEntity<Board> deleteBoardById(HttpEntity<String> httpEntity /*@Pa
 	
 	
 	Board board =boardDAO.get(idBoard);
-	if(board==null || idBoard==26L){// NO PODES BORRAR LA PIZARRA 26 (la home) restricción del sistema
+	if(board==null || idBoard==25L){// NO PODES BORRAR LA PIZARRA 25 (la home) restricción del sistema
 		return new ResponseEntity<Board>(HttpStatus.NOT_FOUND);
 	}
 	board.setDown(true);

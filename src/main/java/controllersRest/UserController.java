@@ -91,7 +91,7 @@ public class UserController {
 		
 		//controlar tipos de datos,etc
 		
-	 
+	    System.out.println(" user recibido para agregar");
 		
 		String user=dataJson.get("user").getAsString();
 		String pass=dataJson.get("pass").getAsString();

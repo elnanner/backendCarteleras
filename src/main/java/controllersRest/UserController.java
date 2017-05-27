@@ -78,14 +78,14 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/createUser", method = RequestMethod.PUT , produces =MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/createUser", method = RequestMethod.POST , produces =MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> createUser(HttpEntity<String> httpEntity ) {
 		//ej {"user": "administrative", "pass": "ad", "mail": "mail@nuevoAdmin.com", "type": "administrative"}
 		
 		//NOTA: BUG CON CONFIG
 		
 		//verificar permisos
-		Gson gson = new GsonBuilder().serializeNulls().create();//new Gson();
+		Gson gson = new Gson();
 		String json = httpEntity.getBody();
 		JsonObject dataJson = gson.fromJson(json, JsonObject.class);
 		
@@ -152,7 +152,7 @@ public ResponseEntity<User> updateBoard(HttpEntity<String> httpEntity ) {
 	
 	@RequestMapping(value="/users",method = RequestMethod.GET ,headers="Accept=application/json")
 	public ResponseEntity<ArrayList<User>> listAllUsers() {	
-		ArrayList<User> users = userDAO.getAllWithoutOrder();
+		ArrayList<User> users = userDAO.getAllWithoutOrderAndNotLogicDelete();
 		if(users.isEmpty()){
 			return new ResponseEntity<ArrayList<User>>(HttpStatus.NO_CONTENT);
 		}

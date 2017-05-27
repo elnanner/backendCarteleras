@@ -85,7 +85,7 @@ public class GenericDAOJPAHibernate<T> implements GenericDAO<T> {
 	//lo bajaria a los que tienen baja logica (user, board, comment y note)
 	public ArrayList<T> getAllWithoutOrderAndNotLogicDelete(){
 		ArrayList<T> result = new ArrayList<T>();
-		result=(ArrayList<T>)(this.getEntityManager().createQuery("SELECT table FROM "+this.getPersistentClass().getSimpleName()  +" table where delete=0")).getResultList();
+		result=(ArrayList<T>)(this.getEntityManager().createQuery("SELECT table FROM "+this.getPersistentClass().getSimpleName()  +" table where down=0")).getResultList();
 		return result;
 	}
 	

@@ -3,7 +3,7 @@ package clasesPrivadas;
 public class AltaComment {
 	private String comment;
 	private String noteID;
-    private String token;
+    private String token; 
     
 public AltaComment(){
 		

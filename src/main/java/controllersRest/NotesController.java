@@ -7,13 +7,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import clases.Board;
+
 import clases.Note;
 import clasesDAO.NoteDAO;
+import clasesPrivadas.AltaComment;
+
 
 @RestController
 public class NotesController {
@@ -55,6 +58,14 @@ public class NotesController {
 		return new ResponseEntity<Note>(note, HttpStatus.OK);
 	}
 
-	
+	@RequestMapping(value="/addComment", method = RequestMethod.POST , produces =MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Note> getNoteById(@RequestBody AltaComment data) {
+		System.out.println("alta comentario!! "+" "+data.getComment()+" id note:  "+data.getIdNote()+"  token "+data.getToken());
+		Note note =noteDAO.get(data.getIdNote());
+		if(note==null){
+			return new ResponseEntity<Note>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Note>(note, HttpStatus.OK);
+	}
 	
 }

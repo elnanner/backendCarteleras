@@ -20,6 +20,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.DefaultJwtBuilder;
 
 
 /**
@@ -85,6 +86,7 @@ public class TokenManagerSecurity {
 	public String createJWT(User user) throws Exception {
 
 		String subject = mapper.writeValueAsString(user);
+		System.out.println("subject es "+subject);
 
 		// The JWT signature algorithm we will be using to sign the token
 
@@ -92,8 +94,9 @@ public class TokenManagerSecurity {
 		Date now = new Date(nowMillis);
 
 		// Let's set the JWT Claims
-		JwtBuilder builder = Jwts.builder().setIssuedAt(now).claim("content", subject).signWith(SignatureAlgorithm.HS512,
-				secretKey);
+		JwtBuilder builder = Jwts.builder().setIssuedAt(now).claim("content", subject).signWith(SignatureAlgorithm.HS512,secretKey);
+		DefaultJwtBuilder b=(DefaultJwtBuilder) Jwts.builder().setIssuedAt(now).claim("content", subject).signWith(SignatureAlgorithm.HS512,secretKey);
+		System.out.println("builder  es "+b.toString());
 
 		// if it has been specified, let's add the expiration
 		if (getTtlSeg() >= 0) {
@@ -104,6 +107,7 @@ public class TokenManagerSecurity {
 		}
 
 		// Builds the JWT and serializes it to a compact, URL-safe string
+		System.out.println(" el token compactado es "+ builder.compact());
 		return builder.compact();
 
 	}

@@ -38,7 +38,7 @@ public class Note {
 	@ElementCollection
 	private Collection<Comment> comments;
 	private String publish;
-	
+	private String title;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "authorId")
@@ -48,12 +48,13 @@ public class Note {
 	
 	private Boolean canComment;
 	
+	
 	public Note(){
 		format= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); // yyyy/MM/dd
 	}
 	
 	//elegir si dejar en el cnstructor el date o no (lo mismo para comment)
-	public Note(Boolean canCommentParam,Date publishDateParam, User authorParam, String publishParam){
+	public Note(Boolean canCommentParam,Date publishDateParam, User authorParam, String publishParam,String title){
 	
 		author=authorParam;
 		publishDate=publishDateParam;
@@ -63,6 +64,7 @@ public class Note {
 		format= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); // yyyy/MM/dd
 		down=false;
 		canComment=canCommentParam;
+		this.title=title;
 	}
 
 
@@ -137,6 +139,28 @@ public class Note {
 	public void setPublishDate(Date publishDate) {
 		this.publishDate = publishDate;
 	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Boolean getDown() {
+		return down;
+	}
+
+	public void setDown(Boolean down) {
+		this.down = down;
+	}
+
+	public void setComments(Collection<Comment> comments) {
+		this.comments = comments;
+	}
+	
+	
 
 /*
 	public DateFormat getFormat() {

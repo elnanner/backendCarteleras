@@ -71,8 +71,9 @@ public class InitCarteleras {
 		
 		
 		Admin admin = new Admin("admin", "admin", conf0, "admin@mail.com");
+		Student s1=new Student("alu", 1L, conf0);
 	    userDAO.persist(admin);
-	    userDAO.persist(new Student("alu", 1L, conf0));
+	    userDAO.persist(s1);
 	    userDAO.persist(new Student("alu2", 2L, conf0));
 	    userDAO.persist(new Student("alu3", 3L, conf0));
 	    userDAO.persist(new Student("alu4", 4L, conf0));
@@ -81,14 +82,7 @@ public class InitCarteleras {
 	    userDAO.persist(new Publisher("pub", "pub", conf0, "publicador@mail.com"));
 	    userDAO.persist(new Professor("new", 6L, conf0));
 	    
-	    Comment comment=new Comment("Mensaje inicial ",admin);
-	    commentDAO.persist(comment);
-	    
-	    Note note=new Note(false,new Date(), admin, "Nota de bienvenida con sorpresa ");
-	    note.addComment(comment);
-	    noteDAO.persist(note);
-	    
-	    
+//movido
 	    Board boardNoticias=new Board("Institucional", "Pizarra de las noticias institucionales de la facultad","institucional");
 	    boardDAO.persist(boardNoticias);
 	    
@@ -125,7 +119,7 @@ public class InitCarteleras {
 	    boardDAO.persist(boardLostProperty);
 	    
 	    Board board=new Board("Home", "pizarra home","home");
-	    board.addNote(note);
+	   // board.addNote(note);
 	    board.addBoard(boardNoticias);
 	    board.addBoard(boardSubjectsFirstYear);
 	    board.addBoard(boardSubjectsSecondYear);
@@ -136,6 +130,26 @@ public class InitCarteleras {
 	    board.addBoard(boardEvents);
 	    board.addBoard(boardLostProperty);
 	    boardDAO.persist(board);
+	    
+	   
+	    Note note=new Note(false,new Date(), admin,"Welcome!", "Nota de bienvenida con sorpresa "); 
+	    
+	    Note note2=new Note(false,new Date(), admin,"El decano y la facu les dan la bienvenida bla bla", "Nota para los de primero ");
+	    noteDAO.persist(note2);
+	    boardSubjectsFirstYear.addNote(note2);
+	    boardDAO.update(boardSubjectsFirstYear);
+	    
+	    Comment comment=new Comment("Comentario inicial ",admin,note);
+	    Comment comment2=new Comment("Otro comentario ",s1,note);
+	    commentDAO.persist(comment);
+	    commentDAO.persist(comment2);
+	    
+	    
+	    noteDAO.persist(note);
+	    board.addNote(note);
+	    
+	    boardDAO.update(board);
+	    
 	    
 	    
 	   /* //para ver si crea mailNotifier

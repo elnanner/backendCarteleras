@@ -15,6 +15,6 @@ public interface GenericDAO<T> {
 	public T persist(T entity);
 	public T get(Long id);
 	public Integer getCount();
-	public ArrayList<T> getAllWithoutOrder();  //PARCHE TEMPORAL OJO!
+	public ArrayList<T> getAllWithoutOrderAndNotLogicDelete();  //PARCHE TEMPORAL OJO! Cambiado para ver si salen los que estan dados de baja
 	
 }

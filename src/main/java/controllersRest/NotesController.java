@@ -57,7 +57,7 @@ public class NotesController {
 		}
 		return new ResponseEntity<Note>(note, HttpStatus.OK);
 	}
-
+ 
 	@RequestMapping(value="/addComment", method = RequestMethod.POST , produces =MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Note> getNoteById(@RequestBody AltaComment data) {
 		System.out.println("alta comentario!! "+" "+data.getComment()+" id note:  "+data.getIdNote()+"  token "+data.getToken());

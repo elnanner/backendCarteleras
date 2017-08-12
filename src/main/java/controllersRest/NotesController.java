@@ -41,7 +41,7 @@ public class NotesController {
 	
 	@RequestMapping(value="/notes",method = RequestMethod.GET ,headers="Accept=application/json")
 	public ResponseEntity<ArrayList<Note>> listAllNotes() {	
-		ArrayList<Note> notes = noteDAO.getAllWithoutOrder();
+		ArrayList<Note> notes = noteDAO.getAllWithoutOrderAndNotLogicDelete();
 		if(notes.isEmpty()){
 			return new ResponseEntity<ArrayList<Note>>(HttpStatus.NO_CONTENT);
 		}

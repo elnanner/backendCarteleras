@@ -37,7 +37,7 @@ public class AdminController {
 	
 	@RequestMapping(value="/admins",method = RequestMethod.GET ,headers="Accept=application/json")
 	public ResponseEntity<ArrayList<Admin>> listAllAdmins() {	
-		ArrayList<Admin> admins = adminDAO.getAllWithoutOrder();
+		ArrayList<Admin> admins = adminDAO.getAllWithoutOrderAndNotLogicDelete();
 		if(admins.isEmpty()){
 			return new ResponseEntity<ArrayList<Admin>>(HttpStatus.NO_CONTENT);
 		}

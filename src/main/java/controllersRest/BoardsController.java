@@ -43,7 +43,7 @@ public void setBoardDAO(BoardDAO boardDAO) {
 //Recupero todas las pizarras
 @RequestMapping(value="/boards",method = RequestMethod.GET ,headers="Accept=application/json")
 public ResponseEntity<ArrayList<Board>> listAllBoards() {	
-	ArrayList<Board> boards = boardDAO.getAllWithoutOrder();
+	ArrayList<Board> boards = boardDAO.getAllWithoutOrderAndNotLogicDelete();
 	if(boards.isEmpty()){
 		return new ResponseEntity<ArrayList<Board>>(HttpStatus.NO_CONTENT);
 	}

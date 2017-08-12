@@ -59,9 +59,14 @@ public class NotesController {
 	}
  
 	@RequestMapping(value="/addComment", method = RequestMethod.POST , produces =MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Note> getNoteById(@RequestBody AltaComment data) {
-		System.out.println("alta comentario!! "+" "+data.getComment()+" id note:  "+data.getIdNote()+"  token "+data.getToken());
-		Note note =noteDAO.get(data.getIdNote());
+	public ResponseEntity<Note> addComment(@RequestBody AltaComment data) {
+		System.out.println("alta comentario!! "+" "+data.getComment()+" id note:  "+data.getNoteID()+"  token "+data.getToken());
+		if(data.getNoteID()==null){
+			System.out.println("ES NULLLLLLLLLLLLLLLLLLLLLLLLLLL");
+		}else{
+			System.out.println(":DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+		}
+		Note note =noteDAO.get(/*data.getIdNote()*/23L);
 		if(note==null){
 			return new ResponseEntity<Note>(HttpStatus.NOT_FOUND);
 		}

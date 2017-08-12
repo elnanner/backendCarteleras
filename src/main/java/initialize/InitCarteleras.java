@@ -144,9 +144,11 @@ public class InitCarteleras {
 	    commentDAO.persist(comment);
 	    commentDAO.persist(comment2);
 	    
-	    
+	    Note note3=new Note(false,new Date(), admin,"Texto cualquier de la nota otra", "Otra nota ");
 	    noteDAO.persist(note);
+	    noteDAO.persist(note3);
 	    board.addNote(note);
+	    board.addNote(note3);
 	    
 	    boardDAO.update(board);
 	    

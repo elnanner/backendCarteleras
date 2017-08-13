@@ -31,6 +31,10 @@ public AltaComment(){
 			this.noteID = noteID;
 		}
 
+	 public Long getNoteIDLong() {
+			return Long.parseLong(noteID);
+		}
+	 
 	/*
 	public String getIdNote() {
 	

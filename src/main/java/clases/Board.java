@@ -73,9 +73,17 @@ public class Board extends Observable{
 		noteList = new ArrayList<Note>();
 		down=false;
 		url=urlParam;
-		
 	}
 
+	//debería usarse este
+	public Board(String nameParam, String descriptionParam) {
+		name = nameParam;
+		description = descriptionParam;
+		boardList = new ArrayList<Board>();
+		noteList = new ArrayList<Note>();
+		down=false;
+		url=null;
+	}
 	
 
 	

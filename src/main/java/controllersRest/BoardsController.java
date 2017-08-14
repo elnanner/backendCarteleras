@@ -73,7 +73,7 @@ public ResponseEntity<Board> deleteBoardById(HttpEntity<String> httpEntity /*@Pa
 	
 	
 	Board board =boardDAO.get(idBoard);
-	if(board==null || idBoard==25L){// NO PODES BORRAR LA PIZARRA 25 (la home) restricción del sistema
+	if(board==null || idBoard==23L){// NO PODES BORRAR LA PIZARRA 23 (la home) restricción del sistema
 		return new ResponseEntity<Board>(HttpStatus.NOT_FOUND);
 	}
 	board.setDown(true);
@@ -103,7 +103,7 @@ public ResponseEntity<Board> createBoard(HttpEntity<String> httpEntity ) {
 	String nameBoard=dataJson.get("name").getAsString();
 	String descriptionBoard=dataJson.get("description").getAsString();
 	
-	Board newBoard=new Board(nameBoard,descriptionBoard,"urlBasura");
+	Board newBoard=new Board(nameBoard,descriptionBoard);
 	boardDAO.persist(newBoard);//persistimos pizarra nueva
 	
     //agregamos el hijo al padre

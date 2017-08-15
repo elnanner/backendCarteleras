@@ -1,8 +1,10 @@
 package controllersRest;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+
+import clases.Board;
 import clases.Comment;
 import clases.Note;
 import clases.User;
+import clasesDAO.BoardDAO;
 import clasesDAO.CommentDAO;
 import clasesDAO.NoteDAO;
 import clasesDAO.UserDAO;
@@ -36,6 +44,9 @@ public class NotesController {
 	
 	@Autowired
 	private TokenManagerSecurity tokenManagerSecurity;
+	
+	@Autowired 
+	private BoardDAO boardDAO;
 
 	public NotesController(){
 		
@@ -99,5 +110,51 @@ public class NotesController {
 		noteDAO.update(note);
 		return new ResponseEntity<Note>(note, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/createNote", method = RequestMethod.POST , produces =MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Board> createBoard(HttpEntity<String> httpEntity ) {
+		//ej {"idBoard": "23", "title": "pruuuu","canComment": "0","publishText": "soy el texto de la nueva nota", "token":  "sqeeere"}
+		
+		//verificar permisos
+		Gson gson = new GsonBuilder().serializeNulls().create();//new Gson();
+		String json = httpEntity.getBody();
+		JsonObject dataJson = gson.fromJson(json, JsonObject.class);
+		
+		//controlar tipos de datos,etc
+		
+	    long board = dataJson.get("idBoard").getAsLong();
+		Board boardFather = boardDAO.get(board);
+		if(boardFather==null){//si padre es nulo: puso mal el id
+			return new ResponseEntity<Board>(HttpStatus.NOT_FOUND);
+		}
+		
+		User author=null;
+		try{
+			author=tokenManagerSecurity.parseJWT(dataJson.get("token").getAsString());//ManagerToken.getDataFromToken(data.getToken());//userDAO.get(4L);
+		
+			if(!author.getType().equals("adm")){
+				return new ResponseEntity<Board>(HttpStatus.UNAUTHORIZED);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return new ResponseEntity<Board>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		String title=dataJson.get("title").getAsString();
+		Boolean canComment=dataJson.get("canComment").getAsBoolean();
+		String publishText=dataJson.get("publishText").getAsString();
+		
+		
+		
+		Note newNote=new Note(canComment,new Date(),author,publishText,title);
+		noteDAO.persist(newNote);
+		boardFather.addNote(newNote);
+		boardDAO.update(boardFather);
+		
+		return new ResponseEntity<Board>(boardFather, HttpStatus.OK);
+	}
+	
+	
 	
 }

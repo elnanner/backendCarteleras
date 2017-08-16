@@ -20,7 +20,7 @@ public class UserDAOHibernate  extends GenericDAOJPAHibernate<User> implements U
 	}
 	
 	public Boolean credentialsLogin(String userName,String pass){
-		Query q=this.getEntityManager().createQuery("SELECT name from "+User.class.getSimpleName() +" where name = ?1 and password = ?2 ");
+		Query q=this.getEntityManager().createQuery("SELECT name from "+User.class.getSimpleName() +" where name = ?1 and password = ?2  and down=0 ");
 		q.setParameter(1,userName);//SANITIZAR!
 		q.setParameter(2,pass);//SANITIZAR!
 		System.out.println(" user pass "+userName+" "+pass+ " resultado "+q.getResultList().size());

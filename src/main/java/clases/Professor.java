@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @XmlRootElement
 @Entity
 public class Professor extends User {
@@ -22,7 +24,7 @@ public class Professor extends User {
 //	@OneToMany
 //	@ElementCollection
 	@OneToMany(fetch = FetchType.EAGER)
-	
+	@JsonIgnore
 	private Collection<Board> permissionsList;
 	
 	public Collection<Board> getPermissionsList() {

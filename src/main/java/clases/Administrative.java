@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 public class Administrative extends User {
@@ -21,6 +23,7 @@ public class Administrative extends User {
 	//@OneToMany
 	//@ElementCollection
 	@OneToMany(fetch = FetchType.EAGER)
+	@JsonIgnore
 	private Collection<Board> permissionsList;
 	
 	public Administrative(String nameParam, String passParam,Config config,String mailParam) {

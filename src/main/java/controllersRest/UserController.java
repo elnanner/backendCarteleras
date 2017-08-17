@@ -32,10 +32,11 @@ import clases.Publisher;
 import clases.User;
 import clasesDAO.GlobalConfigDAO;
 import clasesDAO.UserDAO;
-import clasesPrivadas.Credential;
+import clasesPrivadas.CredentialDTO;
 import clasesPrivadas.Token;
 import clasesPrivadas.TokenManagerSecurity;
-import clasesPrivadas.rtaLogin;
+import clasesPrivadas.UserDTO;
+import clasesPrivadas.rtaLoginDTO;
 
 @RestController
 public class UserController {
@@ -169,7 +170,7 @@ public ResponseEntity<User> updateBoard(HttpEntity<String> httpEntity ) {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
-	private Long searchSIU(Credential credential, String urlString){
+	private Long searchSIU(CredentialDTO credential, String urlString){
 		try {
 			URL url = new URL(urlString);
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
@@ -201,7 +202,7 @@ public ResponseEntity<User> updateBoard(HttpEntity<String> httpEntity ) {
 		return null;
 	}
 	
-	private Long searchSIU(Credential credential){
+	private Long searchSIU(CredentialDTO credential){
 		Long result=searchSIU(credential,"http://localhost:8080/ejemploSIU/tryLoginS/");
 		if(result!=null){
 			return result;
@@ -211,7 +212,7 @@ public ResponseEntity<User> updateBoard(HttpEntity<String> httpEntity ) {
 	}
 	
 	@RequestMapping(value="/tryLogin/", method = RequestMethod.POST)
-	public ResponseEntity<rtaLogin> getUserById(@RequestBody Credential credential) {
+	public ResponseEntity<rtaLoginDTO> getUserById(@RequestBody CredentialDTO credential) {
 		//{"user": "prof1", "pass":"prof1"} 
 		Boolean existeUser =userDAO.credentialsLogin(credential.getUser(), credential.getPass());
 		User user;
@@ -219,7 +220,7 @@ public ResponseEntity<User> updateBoard(HttpEntity<String> httpEntity ) {
 		   // user=searchSIU(credential);
 			Long id=searchSIU(credential);
 		    if(id==null){
-		    	return new ResponseEntity<rtaLogin>(HttpStatus.NOT_FOUND);
+		    	return new ResponseEntity<rtaLoginDTO>(HttpStatus.NOT_FOUND);
 		    }
 		    user = userDAO.getUserWithIDSIU(id);
 		}else{
@@ -229,11 +230,12 @@ public ResponseEntity<User> updateBoard(HttpEntity<String> httpEntity ) {
 		Token token;
 		try {
 			token = new Token(tokenManagerSecurity.createJWT(user));
-			rtaLogin r=new rtaLogin(token, user);
+			//rtaLogin r=new rtaLogin(token, user);
+			rtaLoginDTO r=new rtaLoginDTO(token,new UserDTO(user.getName(),user.getType()));
 			return ResponseEntity.ok(r);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<rtaLogin>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<rtaLoginDTO>(HttpStatus.NOT_FOUND);
 		}
 		
 	}

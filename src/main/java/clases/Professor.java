@@ -22,6 +22,7 @@ public class Professor extends User {
 //	@OneToMany
 //	@ElementCollection
 	@OneToMany(fetch = FetchType.EAGER)
+	
 	private Collection<Board> permissionsList;
 	
 	public Collection<Board> getPermissionsList() {

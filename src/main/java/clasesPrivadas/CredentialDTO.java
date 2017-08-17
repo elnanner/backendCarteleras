@@ -3,7 +3,7 @@ package clasesPrivadas;
 
 
 
-public class Credential {
+public class CredentialDTO {
 
 	
 	
@@ -13,11 +13,11 @@ public class Credential {
 	private String user;
 	private String pass;
 	
-	public Credential(){
+	public CredentialDTO(){
 		
 	}
 
-	public Credential(String usuarioParam, String claveParam){
+	public CredentialDTO(String usuarioParam, String claveParam){
 		user = usuarioParam;
 		pass = claveParam;
 	}

@@ -1,15 +1,15 @@
 package clasesPrivadas;
 
-public class AltaComment {
+public class AltaCommentDTO {
 	private String comment;
 	private String noteID;
 	private String token; 
     
-public AltaComment(){
+public AltaCommentDTO(){
 		
 	}
 
-	public AltaComment(String comment, String noteID, String token){
+	public AltaCommentDTO(String comment, String noteID, String token){
 		this.comment = comment;
 		this.noteID = noteID;
 		this.token=token;

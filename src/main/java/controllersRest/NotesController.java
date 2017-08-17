@@ -26,7 +26,7 @@ import clasesDAO.BoardDAO;
 import clasesDAO.CommentDAO;
 import clasesDAO.NoteDAO;
 import clasesDAO.UserDAO;
-import clasesPrivadas.AltaComment;
+import clasesPrivadas.AltaCommentDTO;
 import clasesPrivadas.TokenManagerSecurity;
 
 
@@ -83,7 +83,7 @@ public class NotesController {
 	}
  
 	@RequestMapping(value="/addComment", method = RequestMethod.POST , produces =MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Note> addComment(@RequestBody AltaComment data) {
+	public ResponseEntity<Note> addComment(@RequestBody AltaCommentDTO data) {
 		System.out.println("alta comentario!! "+" "+data.getComment()+" id note:  "+data.getNoteID()+"  token "+data.getToken());
 		if(data.getNoteID()==null){
 			System.out.println("ES NULLLLLLLLLLLLLLLLLLLLLLLLLLL");

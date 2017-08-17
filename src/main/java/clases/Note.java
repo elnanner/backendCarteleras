@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 public class Note {
@@ -28,6 +30,7 @@ public class Note {
 	private Date publishDate;
 	
 	@Transient
+	@JsonIgnore
 	private DateFormat format;
 	
 

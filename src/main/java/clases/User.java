@@ -46,6 +46,10 @@ public class User {
 	protected SuscriptionManager suscriptionManager;*/
 	protected String mail;
 	
+	protected Boolean down;
+	
+	protected String type; //parche rapidin para poder probar con lo viejo (las sub clases lo setean bien)
+	
 	public Long getId() {
 		return id;
 	}
@@ -94,9 +98,7 @@ public class User {
 		this.favouritesBoards = favouritesBoards;
 	}
 
-	protected Boolean down;
-	
-	protected String type; //parche rapidin para poder probar con lo viejo (las sub clases lo setean bien)
+
 	
 	public User(){
 		

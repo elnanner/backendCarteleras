@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 public class Comment {
@@ -21,6 +23,7 @@ public class Comment {
 	private Long id;
 	private Date commentDate;  //preguntar como hace hibernate para settear
 	@Transient
+	@JsonIgnore
 	private DateFormat format;
 	private String text;
 	

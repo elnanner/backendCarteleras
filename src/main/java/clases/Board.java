@@ -17,6 +17,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 public class Board extends Observable{
@@ -51,6 +53,8 @@ public class Board extends Observable{
 	private Collection<Note> noteList;
 	
 	protected Boolean down;
+	
+	@JsonIgnore
 	protected String url;
 
 	

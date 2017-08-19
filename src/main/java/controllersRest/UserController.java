@@ -28,6 +28,7 @@ import clases.Admin;
 import clases.Administrative;
 import clases.Board;
 import clases.Config;
+import clases.Note;
 import clases.Publisher;
 import clases.User;
 import clasesDAO.GlobalConfigDAO;
@@ -70,10 +71,32 @@ public class UserController {
 		String json = httpEntity.getBody();
 		JsonObject dataJson = gson.fromJson(json, JsonObject.class);	
 		Long idUser=dataJson.get("idUser").getAsLong();
-		User user =userDAO.get(idUser);
-		if(user==null || (user.getType().equals("alu") || user.getType().equals("doc"))){// NO PODES BORRAR alumnos ni profesores porque son del siu
-			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		User userAuthorOperation=null;
+		//System.out.println("baja de usuario el token es "+dataJson.get("token").getAsString());
+		try{
+			userAuthorOperation=tokenManagerSecurity.parseJWT(dataJson.get("token").getAsString());//ManagerToken.getDataFromToken(data.getToken());//userDAO.get(4L);
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		if(idUser==userAuthorOperation.getId()){
+			System.out.println("usteded no se puede borrar a si mismo");
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		User operatorRecoverFromBD=userDAO.get(userAuthorOperation.getId());
+		if (operatorRecoverFromBD.getDown()==true){
+			System.out.println("usteded está dado de baja, no puede operar");
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if(operatorRecoverFromBD.getType()!="adm"){
+			System.out.println("usteded no tiene permisos para realizar esta operación");
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		User user =userDAO.get(idUser);
+		//if(user==null || (user.getType().equals("alu") || user.getType().equals("doc"))){// NO PODES BORRAR alumnos ni profesores porque son del siu
+		//	return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		//}
 		user.setDown(true);
 		userDAO.update(user);
 		return new ResponseEntity<User>(user, HttpStatus.OK);

@@ -31,6 +31,7 @@ import clases.Config;
 import clases.Note;
 import clases.Publisher;
 import clases.User;
+import clasesDAO.BoardDAO;
 import clasesDAO.GlobalConfigDAO;
 import clasesDAO.UserDAO;
 import clasesPrivadas.CredentialDTO;
@@ -49,6 +50,9 @@ public class UserController {
 	
 	@Autowired
 	private GlobalConfigDAO globalConfigDAO;
+	
+	@Autowired 
+	private BoardDAO boardDAO;
 
 	public UserController(){
 		
@@ -64,8 +68,6 @@ public class UserController {
 	@RequestMapping(value="/deleteUser", method = RequestMethod.DELETE , produces =MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> deleteUserById(HttpEntity<String> httpEntity /*@PathVariable("id") Long idBoard*/) {
 		//ej {"idUser": "11"}
-		//verificar permisos
-		
 		//CONTROLAR QUE NO SE PUEDA BORRAR A SI MISMO CON TOKEN! :P 
 		Gson gson = new Gson();
 		String json = httpEntity.getBody();
@@ -85,6 +87,10 @@ public class UserController {
 			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		User operatorRecoverFromBD=userDAO.get(userAuthorOperation.getId());
+		if(operatorRecoverFromBD==null){
+			System.out.println("error de id");
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		if (operatorRecoverFromBD.getDown()==true){
 			System.out.println("usteded está dado de baja, no puede operar");
 			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -100,6 +106,46 @@ public class UserController {
 		user.setDown(true);
 		userDAO.update(user);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/addFavourite", method = RequestMethod.POST , produces =MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> addFavouriteBoard(HttpEntity<String> httpEntity) {
+		//ej {"idBoard": "23", "token":"token"}
+		Gson gson = new Gson();
+		String json = httpEntity.getBody();
+		JsonObject dataJson = gson.fromJson(json, JsonObject.class);	
+		Long idBoard=dataJson.get("idBoard").getAsLong();
+		User userAuthorOperation=null;
+		try{
+			userAuthorOperation=tokenManagerSecurity.parseJWT(dataJson.get("token").getAsString());//ManagerToken.getDataFromToken(data.getToken());//userDAO.get(4L);
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		User operatorRecoverFromBD=userDAO.get(userAuthorOperation.getId());
+		if(operatorRecoverFromBD==null){
+			System.out.println("error de id");
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if (operatorRecoverFromBD.getDown()==true){
+			System.out.println("usteded está dado de baja, no puede operar");
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		Board board =boardDAO.get(idBoard);
+		if(board==null){
+			System.out.println("error de id");
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if(board.getDown()==true){
+			System.out.println("usteded no puede agregar una pizarra dada de baja");
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		}
+		
+		operatorRecoverFromBD.addBoardInterest(board);
+		userDAO.update(operatorRecoverFromBD);
+		return new ResponseEntity<User>(operatorRecoverFromBD, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/createUser", method = RequestMethod.POST , produces =MediaType.APPLICATION_JSON_VALUE)

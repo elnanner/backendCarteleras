@@ -155,6 +155,26 @@ public class NotesController {
 		return new ResponseEntity<Board>(boardFather, HttpStatus.OK);
 	}
 	
+
+	@RequestMapping(value="/deleteNote", method = RequestMethod.DELETE , produces =MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Note> deleteBoardById(HttpEntity<String> httpEntity) {
+		//ej {"idNote": "26"}
+		//verificar permisos
+		Gson gson = new Gson();
+		String json = httpEntity.getBody();
+		JsonObject dataJson = gson.fromJson(json, JsonObject.class);
+		
+		Long idNote=dataJson.get("idNote").getAsLong();
+	
+	
+		Note note =noteDAO.get(idNote);
+		if(note==null){
+			return new ResponseEntity<Note>(HttpStatus.NOT_FOUND);
+		}
+		note.setDown(true);
+		noteDAO.update(note);
+		return new ResponseEntity<Note>(note, HttpStatus.OK);
+	}
 	
 	
 }

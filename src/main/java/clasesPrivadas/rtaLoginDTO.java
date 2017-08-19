@@ -1,12 +1,13 @@
 package clasesPrivadas;
 
-import clases.User;
+
 
 public class rtaLoginDTO {
 
 	private Token token;
 	//private User profile;
 	private UserDTO profile;
+	
 	
 	/*public rtaLogin(Token t, User u){
 		token=t;
@@ -24,10 +25,6 @@ public class rtaLoginDTO {
 	public void setToken(Token token) {
 		this.token = token;
 	}
-	
-	
-	
-	
 	
 	public UserDTO getProfile() {
 		return profile;

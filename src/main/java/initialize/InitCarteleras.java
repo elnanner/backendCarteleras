@@ -74,9 +74,9 @@ public class InitCarteleras {
 		Student s1=new Student("alu", 1L, conf0);
 	    userDAO.persist(admin);
 	    userDAO.persist(s1);
-	    userDAO.persist(new Student("alu2", 2L, conf0));
-	    userDAO.persist(new Student("alu3", 3L, conf0));
-	    userDAO.persist(new Student("alu4", 4L, conf0));
+	    userDAO.persist(new Student("alu1", 2L, conf0));
+	    userDAO.persist(new Student("alu2", 3L, conf0));
+	    userDAO.persist(new Student("alu3", 4L, conf0));
 	   
 	    userDAO.persist(new Administrative("adm", "adm", conf0, "adminstrative@mail.com"));
 	    userDAO.persist(new Publisher("pub", "pub", conf0, "publicador@mail.com"));
@@ -150,7 +150,15 @@ public class InitCarteleras {
 	    board.addNote(note);
 	    board.addNote(note3);
 	    
+	   
+	    
 	    boardDAO.update(board);
+	    
+	    
+	    s1.addBoardInterest(boardSubjectsFirstYear);
+	    userDAO.update(s1);
+	    
+	    //
 	    
 	    
 	    

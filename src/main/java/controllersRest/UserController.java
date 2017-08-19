@@ -231,7 +231,7 @@ public ResponseEntity<User> updateBoard(HttpEntity<String> httpEntity ) {
 		try {
 			token = new Token(tokenManagerSecurity.createJWT(user));
 			//rtaLogin r=new rtaLogin(token, user);
-			rtaLoginDTO r=new rtaLoginDTO(token,new UserDTO(user.getName(),user.getType()));
+			rtaLoginDTO r=new rtaLoginDTO(token,new UserDTO(user.getName(),user.getType(),user.getFavouritesBoards()));
 			return ResponseEntity.ok(r);
 		} catch (Exception e) {
 			e.printStackTrace();

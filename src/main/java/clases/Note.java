@@ -26,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Note {
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-
 	private Date publishDate;
 	
 	@Transient
@@ -60,6 +59,7 @@ public class Note {
 	public Note(Boolean canCommentParam,Date publishDateParam, User authorParam, String publishParam,String title){
 	
 		author=authorParam;
+		
 		publishDate=publishDateParam;
 		resources=new ArrayList<String>();
 		comments=new ArrayList<Comment>();

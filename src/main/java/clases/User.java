@@ -20,6 +20,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -35,6 +37,7 @@ public class User {
 	protected String password;
 	@OneToMany(fetch = FetchType.EAGER)
 	@Column(nullable=false)
+	@JsonIgnore
 	protected Collection<Board> favouritesBoards;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "configId")

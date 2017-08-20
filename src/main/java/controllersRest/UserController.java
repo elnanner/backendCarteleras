@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -197,6 +198,32 @@ public class UserController {
 		System.out.println("despues de la baja tiene "+operatorRecoverFromBD.getFavouritesBoards());
 		userDAO.update(operatorRecoverFromBD);
 		return new ResponseEntity<User>(operatorRecoverFromBD, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/getFavouriteBoards", method = RequestMethod.POST , produces =MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Board>> getFaouriteBoards(HttpEntity<String> httpEntity) {
+		//ej {"token":"token"}
+		Gson gson = new Gson();
+		String json = httpEntity.getBody();
+		JsonObject dataJson = gson.fromJson(json, JsonObject.class);	
+		User userAuthorOperation=null;
+		try{
+			userAuthorOperation=tokenManagerSecurity.parseJWT(dataJson.get("token").getAsString());
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return new ResponseEntity<Collection<Board>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		User operatorRecoverFromBD=userDAO.get(userAuthorOperation.getId());
+		if(operatorRecoverFromBD==null){
+			System.out.println("error de id");
+			return new ResponseEntity<Collection<Board>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if (operatorRecoverFromBD.getDown()==true){
+			System.out.println("usteded está dado de baja, no puede operar");
+			return new ResponseEntity<Collection<Board>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<Collection<Board>>(operatorRecoverFromBD.getFavouritesBoards(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/createUser", method = RequestMethod.POST , produces =MediaType.APPLICATION_JSON_VALUE)

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -35,9 +36,18 @@ public class User {
 	protected Long idSIU;
 	
 	protected String password;
-	@OneToMany(fetch = FetchType.EAGER)
-	@Column(nullable=false)
+	//@OneToMany(fetch = FetchType.EAGER)
+	//@Column(nullable=false)
 	@JsonIgnore
+	
+	//new
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "favouriteBoards", joinColumns = {
+			@JoinColumn(name = "idUser", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "idBoard",
+					nullable = false, updatable = false) })
+	
+	//new
 	protected Collection<Board> favouritesBoards;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "configId")
@@ -191,5 +201,17 @@ public class User {
 		this.type = type;
 	}
 	
+	@Override
+	public boolean equals(Object o){
+		if (!(o instanceof User)){
+			  return false;
+		 }
+		User u=(User)o;
+		if(u.getId()==this.getId()){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 }

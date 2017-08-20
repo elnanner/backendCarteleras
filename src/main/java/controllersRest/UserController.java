@@ -144,6 +144,57 @@ public class UserController {
 		}
 		
 		operatorRecoverFromBD.addBoardInterest(board);
+		try{
+			userDAO.update(operatorRecoverFromBD);
+		}catch(Exception e){
+			System.out.println("seguramente clave duplicada");
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<User>(operatorRecoverFromBD, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/removeFavourite", method = RequestMethod.POST , produces =MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> removeFavouriteBoard(HttpEntity<String> httpEntity) {
+		//ej {"idBoard": "23", "token":"token"}
+		Gson gson = new Gson();
+		String json = httpEntity.getBody();
+		JsonObject dataJson = gson.fromJson(json, JsonObject.class);	
+		Long idBoard=dataJson.get("idBoard").getAsLong();
+		User userAuthorOperation=null;
+		try{
+			userAuthorOperation=tokenManagerSecurity.parseJWT(dataJson.get("token").getAsString());
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		User operatorRecoverFromBD=userDAO.get(userAuthorOperation.getId());
+		if(operatorRecoverFromBD==null){
+			System.out.println("error de id");
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if (operatorRecoverFromBD.getDown()==true){
+			System.out.println("usteded está dado de baja, no puede operar");
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		Board board =boardDAO.get(idBoard);
+		if(board==null){
+			System.out.println("error de id");
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if(board.getDown()==true){
+			System.out.println("usteded no puede agregar una pizarra dada de baja");
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		}
+		for(Board boardIteration:operatorRecoverFromBD.getFavouritesBoards()){
+			System.out.println("board iteration "+boardIteration.getId()+" "+boardIteration.getName()+" id java "+boardIteration.toString());
+		}
+		System.out.println("la pizarra java es "+board.toString());
+		System.out.println("antes de la baja tiene "+operatorRecoverFromBD.getFavouritesBoards());
+		
+		operatorRecoverFromBD.removeBoardInterest(board);
+		System.out.println("despues de la baja tiene "+operatorRecoverFromBD.getFavouritesBoards());
 		userDAO.update(operatorRecoverFromBD);
 		return new ResponseEntity<User>(operatorRecoverFromBD, HttpStatus.OK);
 	}

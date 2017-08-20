@@ -155,6 +155,18 @@ public class Board extends Observable{
 		noteList.remove(noteParam);
 	}
 	
+	@Override
+	public boolean equals(Object o){
+		if (!(o instanceof Board)){
+			  return false;
+		 }
+		Board b=(Board)o;
+		if(b.getId()==this.getId()){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 }
 

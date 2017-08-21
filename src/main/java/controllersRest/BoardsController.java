@@ -61,19 +61,19 @@ public ResponseEntity<Board> getBoardById(@PathVariable("id") Long idBoard) {
 }
 
 
-@RequestMapping(value="/deleteBoard", method = RequestMethod.DELETE , produces =MediaType.APPLICATION_JSON_VALUE)
-public ResponseEntity<Board> deleteBoardById(HttpEntity<String> httpEntity /*@PathVariable("id") Long idBoard*/) {
+@RequestMapping(value="/deleteBoard/{id}", method = RequestMethod.DELETE , produces =MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<Board> deleteBoardById(/*HttpEntity<String> httpEntity */@PathVariable("id") Long idBoard) {
 	//ej {"idBoard": "26"}
 	//verificar permisos
-	Gson gson = new Gson();
-	String json = httpEntity.getBody();
-	JsonObject dataJson = gson.fromJson(json, JsonObject.class);
+	//Gson gson = new Gson();
+	//String json = httpEntity.getBody();
+	//JsonObject dataJson = gson.fromJson(json, JsonObject.class);
 	
-	Long idBoard=dataJson.get("idBoard").getAsLong();
+	//Long idBoard=dataJson.get("idBoard").getAsLong();
 	
 	
 	Board board =boardDAO.get(idBoard);
-	if(board==null || idBoard==23L){// NO PODES BORRAR LA PIZARRA 23 (la home) restricción del sistema
+	if(board==null || idBoard==23L){// NO PODES BORRAR LA PIZARRA 23 (la home) restricciï¿½n del sistema
 		return new ResponseEntity<Board>(HttpStatus.NOT_FOUND);
 	}
 	board.setDown(true);
